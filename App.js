@@ -85,12 +85,14 @@ export default function App() {
     });
   };
 
-  const onRegionChange = region => {
-    setRegion(region);
+  const onRegionChange = (region, details) => {
+    if (details.isGesture) {
+      setRegion(region);
+    }
   };
 
   // console.log(location);
-  console.log('Region: ', region);
+  // console.log('Region: ', region);
 
   return (
     <View style={styles.container}>
@@ -141,9 +143,12 @@ export default function App() {
           longitudeDelta: 0.0421,
         }}
         region={region}
-        onRegionChangeComplete={region => onRegionChange(region)}>
+        onRegionChangeComplete={(region, details) =>
+          onRegionChange(region, details)
+        }>
         {location?.coords !== undefined && (
           <Marker
+            draggable
             coordinate={{
               latitude: location?.coords?.latitude,
               longitude: location?.coords?.longitude,
